@@ -50,12 +50,19 @@ h1, h2 { font-family: "Fraunces", Georgia, serif; font-weight: 600; letter-spaci
 }
 .nav.scrolled {
   padding: .7rem var(--pad);
-  background: rgba(246, 249, 250, .8);
-  backdrop-filter: blur(14px) saturate(1.4);
   box-shadow: 0 1px 0 rgba(18, 35, 46, .06);
 }
+/* blur lives on a pseudo-element so it doesn't trap the fixed mobile menu */
+.nav::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: rgba(246, 249, 250, .8);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  opacity: 0; transition: opacity .4s;
+}
+.nav.scrolled::before { opacity: 1; }
 .nav.hidden { transform: translateY(-100%); }
-.brand { display: flex; align-items: center; gap: .6rem; font-weight: 600; text-decoration: none; }
+.brand { display: flex; align-items: center; gap: .6rem; font-weight: 600; text-decoration: none; white-space: nowrap; min-width: 0; }
 .brand-mark {
   display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px;
   background: linear-gradient(135deg, var(--teal), var(--teal-2)); color: #fff;
@@ -75,6 +82,30 @@ h1, h2 { font-family: "Fraunces", Georgia, serif; font-weight: 600; letter-spaci
 .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); transform-origin: left; }
 .nav-cta { padding: .5rem 1.1rem; border-radius: 999px; background: var(--ink); color: #fff !important; }
 .menu-btn { display: none; }
+
+/* ---------- Language toggle (EN / PT) ---------- */
+.nav-end { display: flex; align-items: center; gap: 1.6rem; }
+.nav-end .nav-links { order: -1; }
+.lang-toggle {
+  position: relative; z-index: 60; flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 2px; padding: 3px;
+  border: 1px solid rgba(11, 95, 107, .18); border-radius: 999px;
+  background: rgba(230, 244, 243, .85); cursor: pointer;
+  font: 600 .72rem/1 "Inter", system-ui, sans-serif; letter-spacing: .06em;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color .3s, box-shadow .3s;
+}
+.lang-toggle:hover { border-color: rgba(11, 95, 107, .4); box-shadow: 0 6px 16px -10px rgba(11, 95, 107, .6); }
+.lang-toggle:focus-visible { outline: 2px solid var(--teal-2); outline-offset: 2px; }
+.lang-opt {
+  display: grid; place-items: center; min-width: 2.1rem; padding: .42rem .55rem;
+  border-radius: 999px; color: var(--teal);
+  transition: background .35s var(--ease), color .35s var(--ease), box-shadow .35s var(--ease);
+}
+.lang-opt.active {
+  background: linear-gradient(135deg, var(--teal), var(--teal-2)); color: #fff;
+  box-shadow: 0 4px 10px -4px rgba(11, 95, 107, .6);
+}
 
 /* ---------- Buttons ---------- */
 .actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
@@ -366,6 +397,8 @@ footer p { margin: 0; }
   .nav-links.open { clip-path: circle(150% at calc(100% - 40px) 36px); visibility: visible; transition: clip-path .7s var(--ease); }
   .nav-links a { font-size: clamp(1.3rem, 5vw, 1.6rem); }
   .nav-cta { padding: .6rem 1.6rem; }
+  .nav-end { gap: .5rem; }
+  .lang-opt { min-width: 1.9rem; padding: .4rem .45rem; }
 }
 
 /* Phones */
@@ -389,7 +422,10 @@ footer p { margin: 0; }
 
 /* Very small phones (iPhone SE 1st gen, Galaxy Fold folded) */
 @media (max-width: 360px) {
-  .brand { font-size: .9rem; }
+  .brand { font-size: .9rem; gap: .45rem; }
+  .lang-toggle { font-size: .68rem; }
+  .lang-opt { min-width: 1.7rem; padding: .36rem .36rem; }
+  .nav-end { gap: .35rem; }
   .brand-mark { width: 32px; height: 32px; }
   .stat .label { font-size: .8rem; }
   .fc1, .fc2 { display: none; }

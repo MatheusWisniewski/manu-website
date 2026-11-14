@@ -9,6 +9,7 @@ Plain HTML, CSS and JavaScript. No build step and no dependencies.
 
 - `index.html`: content
 - `styles.css`: design, animations and responsive layout
+- `i18n.js`: English / Brazilian Portuguese (PT-BR) toggle and automatic detection for Brazilian / Portuguese-speaking visitors (defaults to English)
 - `main.js`: scroll animations, counters, mobile menu and hover effects
 - `assets/`: images (headshot and organisation logos in `assets/logos/`)
 

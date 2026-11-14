@@ -3,13 +3,13 @@ import http.server
 import os
 
 PORT = int(os.environ.get("PORT", 8080))
-ALLOWED = ("/", "/index.html", "/styles.css", "/main.js", "/assets/")
+ALLOWED = ("/", "/index.html", "/styles.css", "/i18n.js", "/main.js")
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         path = self.path.split("?", 1)[0]
-        if path in ALLOWED[:4] or (path.startswith("/assets/") and ".." not in path):
+        if path in ALLOWED or (path.startswith("/assets/") and ".." not in path):
             return super().do_GET()
         self.send_error(404)
 

@@ -17,20 +17,37 @@
   /* ---------- Animated counters ---------- */
   const countObs = new IntersectionObserver((entries) => entries.forEach((e) => {
     if (!e.isIntersecting) return;
-    const el = e.target, target = +el.dataset.count, suffix = el.dataset.suffix || "";
+    const el = e.target, target = +el.dataset.count;
     const dur = reduced ? 0 : 1600, start = performance.now();
+    el.dataset.state = "running";
     const tick = (now) => {
       const p = dur ? Math.min((now - start) / dur, 1) : 1;
-      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+      // read the suffix every frame so a language switch mid-animation is picked up
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + (el.dataset.suffix || "");
       if (p < 1) requestAnimationFrame(tick);
+      else el.dataset.state = "done";
     };
     requestAnimationFrame(tick);
     countObs.unobserve(el);
   }), { threshold: 0.6 });
   document.querySelectorAll("[data-count]").forEach((el) => {
-    if (reduced) return; // keep the real number already in the HTML
+    if (reduced) {
+      el.textContent = el.dataset.count + (el.dataset.suffix || "");
+      el.dataset.state = "done";
+      return;
+    }
     el.textContent = "0" + (el.dataset.suffix || "");
+    el.dataset.state = "idle";
     countObs.observe(el);
+  });
+
+  /* Re-render counter suffixes (e.g. " yrs" / " anos") when i18n.js switches language */
+  addEventListener("langchange", () => {
+    document.querySelectorAll("[data-count]").forEach((el) => {
+      const suffix = el.dataset.suffix || "";
+      if (el.dataset.state === "running") return; // next frame picks up the new suffix
+      el.textContent = (el.dataset.state === "idle" ? "0" : el.dataset.count) + suffix;
+    });
   });
 
   /* ---------- Scroll-driven: progress bar, nav, timeline fill, parallax ---------- */
