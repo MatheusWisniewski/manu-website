@@ -1,6 +1,6 @@
 # manu-website
 
-Personal professional website for **Emanuelle Wisniewski**, Nursing Assistant at HCA Healthcare UK, London.
+Personal professional website for **Emanuelle Wisniewski**, nursing assistant and qualified nurse based in London.
 
 Live site: https://matheuswisniewski.github.io/manu-website/
 
@@ -10,7 +10,7 @@ Plain HTML, CSS and JavaScript. No build step and no dependencies.
 - `index.html`: content
 - `styles.css`: design, animations and responsive layout
 - `main.js`: scroll animations, counters, mobile menu and hover effects
-- `assets/`: images
+- `assets/`: images (headshot and organisation logos in `assets/logos/`)
 
 ## Run locally
 ```bash

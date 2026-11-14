@@ -422,3 +422,28 @@ footer p { margin: 0; }
   .reveal, .load { opacity: 1 !important; transform: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* ---------- Organisation logos ---------- */
+.org-logo, .org-logos { float: right; margin: 0 0 .6rem 1rem; }
+.org-logos { display: flex; }
+.org-logo {
+  width: 56px; height: 56px; border-radius: 16px; padding: 7px;
+  background: #fff; display: grid; place-items: center;
+  border: 1px solid rgba(11, 95, 107, .12);
+  box-shadow: 0 8px 20px -12px rgba(11, 95, 107, .45);
+  transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.org-logo img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
+.org-logo.wide { width: 84px; padding: 7px 9px; }
+.org-logos .org-logo { float: none; margin: 0; }
+.org-logos .org-logo + .org-logo { margin-left: -10px; }
+.org-logos:hover .org-logo + .org-logo { margin-left: 4px; }
+.org-logos .org-logo { transition: transform .4s var(--ease), margin .4s var(--ease), box-shadow .4s var(--ease); }
+.tl-card:hover .org-logo, .edu:hover .org-logo { transform: translateY(-3px) rotate(-3deg); box-shadow: 0 14px 26px -12px rgba(11, 95, 107, .55); }
+.tl-card:hover .org-logos .org-logo:nth-child(2) { transition-delay: .05s; }
+.tl-card:hover .org-logos .org-logo:nth-child(3) { transition-delay: .1s; }
+.tl-card::after, .edu::after { content: ""; display: block; clear: both; }
+@media (max-width: 560px) {
+  .org-logo { width: 42px; height: 42px; border-radius: 12px; padding: 5px; }
+  .org-logo.wide { width: 62px; }
+}
