@@ -1,6 +1,6 @@
 # manu-website
 
-Personal professional website for **Emanuelle Wisniewski**, nursing assistant and qualified nurse based in London.
+Personal professional website for **Emanuelle Wisniewski**, nurse based in London.
 
 Live site: https://matheuswisniewski.github.io/manu-website/
 
