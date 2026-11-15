@@ -1,5 +1,6 @@
 (() => {
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mqReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const reduced = mqReduced.matches; // boot-time snapshot (counters only)
   const finePointer = window.matchMedia("(pointer: fine)").matches;
   document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -63,7 +64,10 @@
     const y = window.scrollY, h = document.documentElement.scrollHeight - innerHeight;
     progress.style.transform = `scaleX(${h > 0 ? y / h : 0})`;
     nav.classList.toggle("scrolled", y > 30);
-    nav.classList.toggle("hidden", y > lastY && y > 500 && !document.querySelector(".nav-links.open"));
+    // hysteresis: ignore tiny scroll jitters so the bar doesn't flicker
+    if (y <= 500 || document.querySelector(".nav-links.open")) nav.classList.remove("hidden");
+    else if (y - lastY > 10) nav.classList.add("hidden");
+    else if (lastY - y > 6) nav.classList.remove("hidden");
     lastY = y;
 
     if (timeline) {
@@ -71,7 +75,7 @@
       const p = (innerHeight * 0.6 - r.top) / r.height;
       fill.style.setProperty("--fill", Math.max(0, Math.min(1, p)));
     }
-    if (!reduced && y < innerHeight) {
+    if (!mqReduced.matches && y < innerHeight) {
       blobs.forEach((b, i) => (b.style.translate = `0 ${y * (0.15 + i * 0.1)}px`));
       if (photo) photo.style.translate = `0 ${y * -0.08}px`;
     }
@@ -97,38 +101,54 @@
   };
   btn.addEventListener("click", () => toggle(!menu.classList.contains("open")));
   links.forEach((a) => a.addEventListener("click", () => toggle(false)));
+  // Escape closes the drawer and hands focus back to the burger
+  addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu.classList.contains("open")) { toggle(false); btn.focus(); }
+  });
+  // Leaving the mobile layout with the drawer open must never strand body overflow
+  const mqDesktop = window.matchMedia("(min-width: 961px)");
+  const onDesktop = () => { if (mqDesktop.matches && menu.classList.contains("open")) toggle(false); };
+  if (mqDesktop.addEventListener) mqDesktop.addEventListener("change", onDesktop);
+  else if (mqDesktop.addListener) mqDesktop.addListener(onDesktop);
 
-  if (reduced || !finePointer) return;
+  if (!finePointer) return;
 
-  /* ---------- Card tilt + spotlight ---------- */
+  /* ---------- Card spotlight (soft glow follows the pointer; lift is pure CSS) ---------- */
   document.querySelectorAll(".tilt").forEach((card) => {
-    card.addEventListener("pointerenter", () => {
-      card.style.transition = "transform .2s ease-out, box-shadow .4s, border-color .4s";
-    });
     card.addEventListener("pointermove", (e) => {
+      if (mqReduced.matches) return;
       const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-      card.style.setProperty("--mx", `${x * 100}%`);
-      card.style.setProperty("--my", `${y * 100}%`);
-      card.style.transform = `perspective(900px) rotateX(${(0.5 - y) * 6}deg) rotateY(${(x - 0.5) * 8}deg) translateY(-4px)`;
+      card.style.setProperty("--mx", `${((e.clientX - r.left) / r.width) * 100}%`);
+      card.style.setProperty("--my", `${((e.clientY - r.top) / r.height) * 100}%`);
     });
-    card.addEventListener("pointerleave", () => (card.style.transform = ""));
   });
 
-  /* ---------- Magnetic buttons ---------- */
+  /* ---------- Magnetic buttons (subtle) ---------- */
   document.querySelectorAll(".magnetic").forEach((el) => {
     el.addEventListener("pointermove", (e) => {
+      if (mqReduced.matches) return;
       const r = el.getBoundingClientRect();
-      el.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.2}px, ${(e.clientY - r.top - r.height / 2) * 0.3}px)`;
+      el.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.12}px, ${(e.clientY - r.top - r.height / 2) * 0.18}px)`;
     });
     el.addEventListener("pointerleave", () => (el.style.transform = ""));
   });
 
-  /* ---------- Hero photo follows cursor slightly ---------- */
+  /* ---------- Hero photo follows cursor slightly (rAF-throttled) ---------- */
+  const hero = document.querySelector(".hero");
   const img = photo && photo.querySelector("img");
-  document.querySelector(".hero").addEventListener("pointermove", (e) => {
-    const x = e.clientX / innerWidth - 0.5, y = e.clientY / innerHeight - 0.5;
-    img.style.transform = `translate(${x * 14}px, ${y * 14}px)`;
-    photo.querySelectorAll(".float-card").forEach((c, i) => (c.style.translate = `${x * -(20 + i * 10)}px ${y * -(20 + i * 10)}px`));
-  });
+  const chips = photo ? [...photo.querySelectorAll(".float-card")] : [];
+  if (hero && img) {
+    let px = 0, py = 0, queued = false;
+    const paint = () => {
+      queued = false;
+      img.style.transform = `translate(${px * 6}px, ${py * 6}px)`;
+      chips.forEach((c, i) => (c.style.translate = `${px * -(10 + i * 2)}px ${py * -(10 + i * 2)}px`));
+    };
+    hero.addEventListener("pointermove", (e) => {
+      if (mqReduced.matches) return;
+      px = e.clientX / innerWidth - 0.5; py = e.clientY / innerHeight - 0.5;
+      if (!queued) { queued = true; requestAnimationFrame(paint); }
+    });
+    hero.addEventListener("pointerleave", () => { px = 0; py = 0; if (!queued) { queued = true; requestAnimationFrame(paint); } });
+  }
 })();
