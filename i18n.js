@@ -10,11 +10,11 @@
 (() => {
   const PT = {
     "meta.title": "Emanuelle Wisniewski | Enfermeira · Prevenção e Controle de Infecção",
-    "meta.description": "Emanuelle Wisniewski – Enfermeira formada no Brasil e radicada em Londres, com experiência em pediatria e em prevenção e controle de infecção. Mestranda em Controle de Doenças Infecciosas na LSHTM.",
+    "meta.description": "Emanuelle Wisniewski – Enfermeira formada no Brasil, morando em Londres, com experiência em pediatria e prevenção e controle de infecção. Mestranda em Controle de Doenças Infecciosas na LSHTM.",
     "meta.ogTitle": "Emanuelle Wisniewski – Enfermeira, Londres",
     "meta.ogDescription": "Pediatria · Prevenção e controle de infecção · Saúde pública",
 
-    "nav.menu": "Abrir menu",
+    "nav.menu": "Menu de navegação",
     "nav.about": "Sobre",
     "nav.expertise": "Competências",
     "nav.experience": "Experiência",
@@ -23,7 +23,7 @@
 
     "hero.pill": '<span class="dot"></span> Enfermeira · Morando em Londres',
     "hero.title": 'Cuidado humanizado, <br /><span class="grad">baseado em ciência.</span>',
-    "hero.lead": "Sou a Emanuelle, enfermeira brasileira com experiência em <strong>pediatria</strong> e em <strong>prevenção e controle de infecção</strong>. Atualmente moro em Londres.",
+    "hero.lead": "Sou a Emanuelle, enfermeira formada no Brasil e hoje em Londres, com experiência em <strong>pediatria</strong> e <strong>prevenção e controle de infecção</strong>.",
     "hero.cta": 'Conheça minha trajetória <span class="arrow">→</span>',
     "hero.photoAlt": "Emanuelle Wisniewski de pijama cirúrgico azul-marinho, sorrindo",
     "hero.fc1.title": "Pediatria",
@@ -41,74 +41,74 @@
     "marquee.lead": "Liderança de equipes",
 
     "about.kicker": "01 — Sobre mim",
-    "about.title": "Onde a pediatria encontra o controle de infecção.",
+    "about.title": "Da pediatria ao controle de infecção.",
     "about.p1": "Sou formada em Enfermagem pelas <strong>Faculdades Pequeno Príncipe</strong>, em Curitiba, e cuidei de crianças de todas as idades no <strong>Hospital Pequeno Príncipe</strong>, o maior complexo hospitalar pediátrico da América Latina.",
-    "about.p2": "Na área de controle de infecção, liderei a vigilância ativa das infecções relacionadas à assistência à saúde (IRAS). Também ajudei a implantar políticas de prevenção e conduzi capacitações baseadas em evidências para equipes multiprofissionais.",
-    "about.p3": "Desde que me mudei para Londres, trabalhei por dois anos em uma organização internacional, o que aprimorou minha comunicação, minha capacidade de adaptação e meu inglês profissional. Também estou concluindo o <strong>mestrado (MSc) em Controle de Doenças Infecciosas</strong> na London School of Hygiene &amp; Tropical Medicine (previsão de conclusão: março de 2027).",
+    "about.p2": "Na área de controle de infecção, liderei a vigilância ativa de infecções relacionadas à assistência à saúde (IRAS), apoiei a implantação de protocolos de prevenção e conduzi capacitações baseadas em evidências para equipes multiprofissionais.",
+    "about.p3": "Depois que me mudei para Londres, trabalhei por dois anos em uma organização internacional, o que aprimorou minha comunicação, capacidade de adaptação e inglês profissional. Atualmente, estou concluindo o <strong>mestrado (MSc) em Controle de Doenças Infecciosas</strong> na London School of Hygiene &amp; Tropical Medicine (previsão de conclusão: março de 2027).",
     "about.stat.yrs": " anos",
-    "about.stat1": "Leitos pediátricos sob minha gestão",
-    "about.stat2": "De estágio no Pronto-Socorro Pediátrico",
+    "about.stat1": "Leitos pediátricos gerenciados",
+    "about.stat2": "Estágio em Pronto-Socorro Pediátrico",
     "about.stat3": "Hospitais em que atuei em Curitiba",
     "about.stat4": "Idiomas: português e inglês",
 
     "expertise.kicker": "02 — Competências",
     "expertise.title": "O que levo para a beira do leito.",
     "expertise.c1.title": "Assistência direta ao paciente",
-    "expertise.c1.text": "Cuidado integral do neonato ao adolescente, incluindo cuidados pré e pós-operatórios, aferição de sinais vitais, balanço hídrico e identificação precoce de deterioração clínica.",
+    "expertise.c1.text": "Cuidado integral do neonato ao adolescente, incluindo assistência pré e pós-operatória, aferição de sinais vitais, balanço hídrico e identificação precoce de deterioração clínica.",
     "expertise.c2.title": "Prevenção de infecções",
-    "expertise.c2.text": "Vigilância de IRAS, auditorias de adesão às práticas de controle, gerenciamento de antimicrobianos e microbiologia clínica aplicada para manter pacientes e profissionais seguros.",
+    "expertise.c2.text": "Vigilância de IRAS, auditorias de adesão às práticas de controle, gerenciamento de antimicrobianos e microbiologia clínica aplicada para proteger pacientes e equipes.",
     "expertise.c3.title": "Saúde pública e dados",
     "expertise.c3.text": "Vigilância epidemiológica, rastreamento de contatos de COVID-19 e gestão de dados em saúde (Stata, SINAN, e-SUS).",
     "expertise.c4.title": "Trabalho em equipe e educação",
-    "expertise.c4.text": "Supervisionei e capacitei técnicos de enfermagem e conduzi treinamentos para as equipes. Comunico-me com clareza com pessoas de todas as origens.",
+    "expertise.c4.text": "Supervisão e capacitação de técnicos de enfermagem, educação permanente de equipes e comunicação clara com pessoas de diferentes perfis e culturas.",
 
     "experience.kicker": "03 — Experiência",
     "experience.title": "Minha trajetória na saúde.",
 
-    "exp.j1.date": "ago 2023 — jul 2025",
+    "exp.j1.date": "ago 2023 – jul 2025",
     "exp.j1.role": "Coordenadora de Serviços ao Estudante",
     "exp.j1.org": "EC English Language Centres · Londres",
     "exp.j1.text": "Planejei e conduzi eventos sociais e culturais para estudantes internacionais a partir de 16 anos, ajudando a construir uma comunidade acolhedora e multicultural.",
 
-    "exp.j2.date": "set 2022 — fev 2023",
+    "exp.j2.date": "set 2022 – fev 2023",
     "exp.j2.role": "Enfermeira de Prevenção e Controle de Infecção (CCIH)",
     "exp.j2.org": "Grupo Marista: Hospital Cajuru e Hospital Marcelino Champagnat · Curitiba",
-    "exp.j2.b1": "Liderei programas de vigilância ativa das infecções relacionadas à assistência à saúde (IRAS)",
+    "exp.j2.b1": "Liderei programas de vigilância ativa de infecções relacionadas à assistência à saúde (IRAS)",
     "exp.j2.b2": "Realizei auditorias por observação direta da adesão às medidas de controle de infecção",
     "exp.j2.b3": "Apoiei o gerenciamento de antimicrobianos e participei das visitas multiprofissionais na UTI",
     "exp.j2.b4": "Elaborei e ministrei treinamentos para as equipes sobre boas práticas de prevenção e controle de infecção",
 
-    "exp.j3.date": "mai 2022 — jul 2022",
+    "exp.j3.date": "mai 2022 – jul 2022",
     "exp.j3.role": "Enfermeira Assistencial, Pediatria",
     "exp.j3.b1": "Gerenciei uma unidade pediátrica de 20 leitos, supervisionando e capacitando técnicos de enfermagem",
     "exp.j3.b2": "Liderei a implantação do processo de enfermagem com base na NANDA-I",
-    "exp.j3.b3": "Administrei terapias intravenosas complexas; realizei punção venosa e coleta de amostras",
-    "exp.j3.b4": "Dei suporte à Maternidade e ao Centro Obstétrico nos plantões de fim de semana",
+    "exp.j3.b3": "Administrei terapias intravenosas complexas e realizei punção venosa e coleta de amostras",
+    "exp.j3.b4": "Prestei suporte à Maternidade e ao Centro Obstétrico nos plantões de fim de semana",
 
-    "exp.j4.date": "abr 2021 — nov 2021",
-    "exp.j4.role": "Voluntária Acadêmica, Vigilância em Saúde da COVID-19",
-    "exp.j4.text": "Rastreamento remoto de contatos e monitoramento clínico, coleta de dados epidemiológicos e orientações de saúde pública para a comunidade universitária.",
+    "exp.j4.date": "abr 2021 – nov 2021",
+    "exp.j4.role": "Acadêmica Voluntária, Vigilância em Saúde (COVID-19)",
+    "exp.j4.text": "Realizei rastreamento remoto de contatos e monitoramento clínico, coleta de dados epidemiológicos e orientações de saúde pública para a comunidade universitária.",
 
-    "exp.j5.date": "out 2018 — out 2020",
-    "exp.j5.role": "Estagiária, Pronto-Socorro Pediátrico e CCIH",
+    "exp.j5.date": "out 2018 – out 2020",
+    "exp.j5.role": "Estagiária de Enfermagem, Pronto-Socorro Pediátrico e CCIH",
     "exp.j5.b1": "Auxiliei no atendimento ao trauma, na estabilização e no preparo para reanimação",
     "exp.j5.b2": "Monitorei e registrei sinais vitais e balanço hídrico",
-    "exp.j5.b3": "Vigilância de IRAS e de doenças de notificação compulsória (SINAN, e-SUS)",
+    "exp.j5.b3": "Atuei na vigilância de IRAS e de doenças de notificação compulsória (SINAN, e-SUS)",
     "exp.j5.b4": "Apoiei a vacinação de rotina de pacientes pediátricos internados",
 
-    "exp.j6.date": "out 2014 — out 2016",
-    "exp.j6.role": "Jovem Aprendiz Administrativa",
-    "exp.j6.text": "Comecei aos 15 anos, conciliando o trabalho com o ensino médio, atuando na hotelaria hospitalar e na logística de suprimentos. Foi ali que nasceu meu interesse pela saúde.",
+    "exp.j6.date": "out 2014 – out 2016",
+    "exp.j6.role": "Jovem Aprendiz – Área Administrativa",
+    "exp.j6.text": "Comecei aos 15 anos, durante o ensino médio, atuando na hotelaria hospitalar e na logística de suprimentos. Foi ali que nasceu meu interesse pela área da saúde.",
 
     "education.kicker": "04 — Formação",
     "education.title": "Sempre aprendendo.",
     "edu.e1.tag": "Previsão: mar 2027",
     "edu.e1.title": "Mestrado (MSc) em Controle de Doenças Infecciosas",
-    "edu.e2.title": "Curso de curta duração: Prevenção e Controle de Infecção na Saúde Global",
+    "edu.e2.title": "Curso de curta duração: Prevenção e Controle de Infecção em Saúde Global",
     "edu.e3.title": "Pós-graduação em Enfermagem em Infectologia",
     "edu.e4.title": "Bacharelado em Enfermagem",
     "edu.e5.title": "Curso profissionalizante em Atendimento Pré-Hospitalar (APH)",
-    "edu.e6.title": "Inglês como Segunda Língua",
+    "edu.e6.title": "Curso de Língua Inglesa",
     "edu.e6.org": "EC English Language Centres, Londres",
 
     "logo.ec-english-language-centres": "Logotipo da EC English Language Centres",
@@ -126,7 +126,7 @@
 
     "contact.kicker": "05 — Contato",
     "contact.title": "Vamos conversar.",
-    "contact.text": "Fico sempre feliz em receber o contato de colegas e profissionais da saúde. Fique à vontade para me enviar um e-mail.",
+    "contact.text": "Será sempre um prazer receber mensagens de colegas e outros profissionais da saúde. Fique à vontade para me enviar um e-mail.",
 
     "footer.location": "Londres, Reino Unido",
     "footer.top": "Voltar ao topo ↑",
@@ -168,7 +168,6 @@
 
     if (toggle) {
       toggle.setAttribute("aria-label", TOGGLE_LABEL[lang]);
-      toggle.setAttribute("aria-pressed", String(pt));
       toggle.title = TOGGLE_LABEL[lang];
       toggle.dataset.active = lang;
       toggle.querySelectorAll("[data-lang]").forEach((s) =>
