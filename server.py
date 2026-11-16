@@ -3,7 +3,16 @@ import http.server
 import os
 
 PORT = int(os.environ.get("PORT", 8080))
-ALLOWED = ("/", "/index.html", "/styles.css", "/i18n.js", "/main.js")
+ALLOWED = (
+    "/",
+    "/index.html",
+    "/styles.css",
+    "/i18n.js",
+    "/main.js",
+    "/favicon.ico",
+    "/favicon.svg",
+    "/apple-touch-icon.png",
+)
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="tealBg" x1="6" y1="4" x2="58" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#09525d" />
+      <stop offset="52%" stop-color="#0d6975" />
+      <stop offset="100%" stop-color="#12838f" />
+    </linearGradient>
+    <radialGradient id="softGlow" cx="22" cy="18" r="42" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7fd1c7" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#09525d" stop-opacity="0" />
+    </radialGradient>
+    <mask id="heartPulseMask">
+      <rect width="64" height="64" fill="#ffffff" />
+      <path
+        d="M 6 31.5 H 21.5 L 26.5 21 L 32 39.5 L 37.5 26.5 L 41 31.5 H 58"
+        fill="none"
+        stroke="#000000"
+        stroke-width="3.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </mask>
+  </defs>
+
+  <!-- Clinical teal squircle + seafoam rim -->
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#tealBg)" />
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#softGlow)" />
+  <rect x="3" y="3" width="58" height="58" rx="14" fill="none" stroke="#e6f4f3" stroke-opacity="0.38" stroke-width="2" />
+
+  <!-- Full-silhouette Care Heart with negative-space clinical ECG pulse in broad chest band -->
+  <path
+    d="M 32 21.5 C 32 16.5 25.5 13 20 13 C 13.5 13 9.5 18.2 9.5 24.8 C 9.5 35.5 21.5 44 32 51.5 C 42.5 44 54.5 35.5 54.5 24.8 C 54.5 18.2 50.5 13 44 13 C 38.5 13 32 16.5 32 21.5 Z"
+    fill="#ffffff"
+    mask="url(#heartPulseMask)"
+  />
+</svg>
