@@ -56,6 +56,7 @@
       <a href="#expertise" data-i18n="nav.expertise">Expertise</a>
       <a href="#experience" data-i18n="nav.experience">Experience</a>
       <a href="#education" data-i18n="nav.education">Education</a>
+      <a href="#lab" data-i18n="nav.lab">Lab</a>
       <a href="#contact" class="nav-cta" data-i18n="nav.contact">Contact</a>
     </nav>
     </div>
@@ -303,10 +304,142 @@
       </div>
     </section>
 
+    <!-- PREVENTION LAB -->
+    <section id="lab" class="section">
+      <div class="section-head reveal">
+        <span class="kicker" data-i18n="lab.kicker">05 — Prevention Lab</span>
+        <h2 data-i18n="lab.title">Breaking the chain of transmission.</h2>
+        <p class="section-sub" data-i18n="lab.lead">Explore how hand hygiene, immunisation, and active surveillance and rapid isolation interrupt pathogen spread across a 20-bed paediatric ward — paired with live UKHSA surveillance telemetry for England.</p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <div class="lab-stage-card">
+          <div class="lab-stage-top">
+            <div class="lab-tabs" role="tablist" data-i18n-attr="aria-label:lab.pathogenAria" aria-label="Select pathogen profile">
+              <button type="button" class="lab-tab active" role="tab" aria-selected="true" tabindex="0" data-profile="rsv" data-i18n="lab.p.rsv">RSV · Paediatric</button>
+              <button type="button" class="lab-tab" role="tab" aria-selected="false" tabindex="-1" data-profile="flu" data-i18n="lab.p.flu">Influenza</button>
+              <button type="button" class="lab-tab" role="tab" aria-selected="false" tabindex="-1" data-profile="covid" data-i18n="lab.p.covid">COVID-19</button>
+              <button type="button" class="lab-tab" role="tab" aria-selected="false" tabindex="-1" data-profile="hai" data-i18n="lab.p.hai">HAI / MDRO</button>
+            </div>
+            <span class="lab-status-pill" id="labStatusPill">Contained · Rₑ &lt; 1</span>
+          </div>
+
+          <div class="lab-canvas-wrap" id="labCanvasWrap">
+            <canvas id="labCanvas" class="lab-canvas" tabindex="0" data-i18n-attr="aria-label:lab.canvasAria" aria-label="Interactive 3D 20-bed paediatric ward transmission network. Use Left and Right arrow keys to step between beds and Enter or Space to set the index exposure."></canvas>
+            <div class="lab-bay-marks" aria-hidden="true">
+              <span class="lab-bay-tag" id="labBayATag">Bay A · 01–10</span>
+              <span class="lab-bay-tag" id="labBayBTag">Bay B · 11–20</span>
+            </div>
+            <div class="lab-node-tip" id="labNodeTip" aria-live="polite"></div>
+          </div>
+
+          <p class="lab-stage-hint" data-i18n="lab.hint">Drag to orbit · Tap or click a bed to set index exposure</p>
+
+          <ul class="lab-legend">
+            <li><i class="lg-dot lg-imm" aria-hidden="true"></i><span id="labLegProt" data-i18n="lab.leg.imm">Immunised / protected</span></li>
+            <li><i class="lg-dot lg-sus" aria-hidden="true"></i><span data-i18n="lab.leg.sus">Susceptible</span></li>
+            <li><i class="lg-dot lg-idx" aria-hidden="true"></i><span data-i18n="lab.leg.idx">Index case</span></li>
+            <li><i class="lg-dot lg-exp" aria-hidden="true"></i><span data-i18n="lab.leg.exp">Exposed</span></li>
+            <li><i class="lg-dot lg-iso" aria-hidden="true"></i><span data-i18n="lab.leg.iso">Isolated</span></li>
+          </ul>
+
+          <div class="lab-stage-footer">
+            <div class="lab-kpis">
+              <div class="lab-kpi">
+                <span class="lab-kpi-label" data-i18n="lab.kpi.re">Effective Rₑ</span>
+                <output class="lab-kpi-val" id="labRe" for="ipcHygiene ipcVaccine ipcIsolation">0.28</output>
+              </div>
+              <div class="lab-kpi">
+                <span class="lab-kpi-label" data-i18n="lab.kpi.prot">Protected beds</span>
+                <output class="lab-kpi-val" id="labProtected" for="ipcVaccine">17 / 20</output>
+              </div>
+              <div class="lab-kpi">
+                <span class="lab-kpi-label" data-i18n="lab.kpi.sec">Secondary cases</span>
+                <output class="lab-kpi-val" id="labSecondary" for="ipcHygiene ipcVaccine ipcIsolation">0</output>
+              </div>
+            </div>
+            <button type="button" class="btn light lab-sim-btn" id="labSimulate">
+              <span data-i18n="lab.simBtn">Simulate exposure</span> <span class="arrow" aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="lab-side">
+          <div class="lab-panel lab-controls">
+            <div class="lab-panel-head">
+              <h3 data-i18n="lab.ctrlTitle">Clinical IPC Barriers</h3>
+              <span class="lab-r0-tag" id="labR0Tag">Baseline R₀ ≈ 3.0</span>
+            </div>
+
+            <div class="lab-presets" role="group" data-i18n-attr="aria-label:lab.presetsAria" aria-label="Quick IPC scenarios">
+              <button type="button" class="lab-preset active" data-preset="bundle" data-i18n="lab.pre.bundle">WHO IPC Bundle</button>
+              <button type="button" class="lab-preset" data-preset="surge" data-i18n="lab.pre.surge">Surge Stress</button>
+              <button type="button" class="lab-preset" data-preset="unmit" data-i18n="lab.pre.unmit">Unmitigated</button>
+            </div>
+
+            <div class="ipc-control">
+              <div class="ipc-row">
+                <label for="ipcHygiene" data-i18n="lab.c1">Hand hygiene (WHO 5 Moments)</label>
+                <output id="ipcHygieneOut" for="ipcHygiene">85%</output>
+              </div>
+              <input id="ipcHygiene" type="range" min="0" max="95" value="85" aria-valuetext="85%" />
+            </div>
+
+            <div class="ipc-control">
+              <div class="ipc-row">
+                <label for="ipcVaccine" data-i18n="lab.c2">Immunisation / prophylaxis coverage</label>
+                <output id="ipcVaccineOut" for="ipcVaccine">85%</output>
+              </div>
+              <input id="ipcVaccine" type="range" min="0" max="98" value="85" aria-valuetext="85%" />
+            </div>
+
+            <div class="ipc-control">
+              <div class="ipc-row">
+                <label for="ipcIsolation" data-i18n="lab.c3">Active surveillance &amp; rapid isolation</label>
+                <output id="ipcIsolationOut" for="ipcIsolation">80%</output>
+              </div>
+              <input id="ipcIsolation" type="range" min="0" max="95" value="80" aria-valuetext="80%" />
+            </div>
+
+            <p class="lab-note" id="labNote" aria-live="polite"></p>
+          </div>
+
+          <div class="lab-panel lab-feed">
+            <div class="lab-panel-head lab-feed-head">
+              <h3 data-i18n="lab.feedTitle">UKHSA England</h3>
+              <div class="lab-feed-actions">
+                <span class="feed-badge" id="ukhsaStatus">2026 Snapshot</span>
+                <button type="button" class="feed-refresh" id="ukhsaRefresh" data-i18n-attr="aria-label:lab.refreshAria;title:lab.refreshAria" aria-label="Refresh live UKHSA data" title="Refresh live UKHSA data">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+                </button>
+              </div>
+            </div>
+            <p class="lab-feed-sub" id="ukhsaSubtitle">RSV PCR positivity by age group</p>
+
+            <div class="feed-metrics" id="ukhsaMetrics"></div>
+            <p class="feed-callout" id="ukhsaCallout"></p>
+
+            <div class="feed-chart-wrap">
+              <div class="feed-chart-bar">
+                <div class="feed-chart-legend" id="ukhsaLegend"></div>
+                <span class="feed-chart-readout" id="ukhsaHoverReadout"></span>
+              </div>
+              <svg id="ukhsaChart" class="feed-chart" viewBox="0 0 360 116" role="img" tabindex="0" data-i18n-attr="aria-label:lab.chartAria" aria-label="Weekly positivity trend chart from UKHSA England surveillance. Use Left and Right arrow keys to inspect weekly points."></svg>
+            </div>
+
+            <div class="feed-foot">
+              <span id="ukhsaDate">—</span>
+              <a href="https://ukhsa-dashboard.data.gov.uk/" target="_blank" rel="noopener" data-i18n="lab.feedLink">UKHSA Data Dashboard ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- CONTACT -->
     <section id="contact" class="section contact">
       <div class="contact-card reveal">
-        <span class="kicker light" data-i18n="contact.kicker">05 — Contact</span>
+        <span class="kicker light" data-i18n="contact.kicker">06 — Contact</span>
         <h2 data-i18n="contact.title">Let's connect.</h2>
         <p data-i18n="contact.text">I'm always happy to hear from colleagues and fellow healthcare professionals. Feel free to email me.</p>
         <div class="actions center">
@@ -323,5 +456,6 @@
 
   <script src="i18n.js"></script>
   <script src="main.js"></script>
+  <script type="module" src="lab3d.js"></script>
 </body>
 </html>
