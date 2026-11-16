@@ -160,6 +160,8 @@
     "contact.kicker": "06 — Contato",
     "contact.title": "Vamos conversar.",
     "contact.text": "Será sempre um prazer receber mensagens de colegas e outros profissionais da saúde. Fique à vontade para me enviar um e-mail.",
+    "contact.mailto": "mailto:oi@manuwisniewski.com",
+    "contact.email": "oi@manuwisniewski.com",
 
     "footer.location": "Londres, Reino Unido",
     "footer.top": "Voltar ao topo ↑",
