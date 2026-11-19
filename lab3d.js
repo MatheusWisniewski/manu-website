@@ -1,4 +1,4 @@
-/* Interactive 3D Two-Bay Paediatric Ward IPC Simulator + Live UKHSA England Surveillance Feed */
+/* Interactive 3D Two-Bay Paediatric Ward IPC Simulator */
 import * as THREE from "./assets/vendor/three.module.min.js";
 
 (() => {
@@ -9,58 +9,17 @@ import * as THREE from "./assets/vendor/three.module.min.js";
 
   const mqReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  /* ---------- Verified 2026 UKHSA England Fallback Snapshot (W34–W46 2026) ---------- */
-  const UKHSA_FALLBACK = {
-    rsv: {
-      under5: [
-        ["2026-08-17", 1.3], ["2026-08-24", 0.46], ["2026-08-31", 0.49], ["2026-09-07", 3.15],
-        ["2026-09-14", 3.35], ["2026-09-21", 1.56], ["2026-09-28", 3.39], ["2026-10-05", 6.84],
-        ["2026-10-12", 5.87], ["2026-10-19", 8.92], ["2026-10-26", 16.83], ["2026-11-02", 17.48],
-      ],
-      all: [
-        ["2026-08-17", 0.2], ["2026-08-24", 0.11], ["2026-08-31", 0.11], ["2026-09-07", 0.61],
-        ["2026-09-14", 0.81], ["2026-09-21", 0.29], ["2026-09-28", 0.65], ["2026-10-05", 0.83],
-        ["2026-10-12", 0.92], ["2026-10-19", 1.61], ["2026-10-26", 2.89], ["2026-11-02", 3.2],
-      ],
-    },
-    flu: {
-      under5: [
-        ["2026-08-17", 2.61], ["2026-08-24", 0.46], ["2026-08-31", 2.44], ["2026-09-07", 1.74],
-        ["2026-09-14", 2.74], ["2026-09-21", 2.34], ["2026-09-28", 3.15], ["2026-10-05", 5.83],
-        ["2026-10-12", 5.84], ["2026-10-19", 6.97], ["2026-10-26", 5.36], ["2026-11-02", 6.31],
-      ],
-      all: [
-        ["2026-08-17", 2.22], ["2026-08-24", 2.35], ["2026-08-31", 2.47], ["2026-09-07", 3.44],
-        ["2026-09-14", 4.49], ["2026-09-21", 5.4], ["2026-09-28", 5.79], ["2026-10-05", 6.43],
-        ["2026-10-12", 5.83], ["2026-10-19", 6.38], ["2026-10-26", 7.53], ["2026-11-02", 7.75],
-      ],
-    },
-    covid: {
-      under5: null,
-      all: [
-        ["2026-08-24", 2.95], ["2026-08-31", 3.72], ["2026-09-07", 5.02], ["2026-09-14", 6.37],
-        ["2026-09-21", 7.51], ["2026-09-28", 8.82], ["2026-10-05", 9.36], ["2026-10-12", 9.35],
-        ["2026-10-19", 9.1], ["2026-10-26", 8.2], ["2026-11-02", 7.58], ["2026-11-09", 7.6],
-      ],
-    },
-  };
-
   const PROFILES = {
-    rsv: { r0: 3.0, hygieneWeight: 0.56, vacWeight: 0.78, isoWeight: 0.58, defaults: { h: 85, v: 85, i: 80 }, subKey: "feedRsv" },
-    flu: { r0: 1.8, hygieneWeight: 0.52, vacWeight: 0.72, isoWeight: 0.55, defaults: { h: 82, v: 78, i: 75 }, subKey: "feedFlu" },
-    covid: { r0: 3.4, hygieneWeight: 0.45, vacWeight: 0.75, isoWeight: 0.65, defaults: { h: 82, v: 82, i: 84 }, subKey: "feedCovid" },
-    hai: { r0: 2.1, hygieneWeight: 0.74, vacWeight: 0.52, isoWeight: 0.68, defaults: { h: 88, v: 75, i: 86 }, subKey: "feedHai" },
+    rsv: { r0: 3.0, hygieneWeight: 0.56, vacWeight: 0.78, isoWeight: 0.58, defaults: { h: 85, v: 85, i: 80 } },
+    flu: { r0: 1.8, hygieneWeight: 0.52, vacWeight: 0.72, isoWeight: 0.55, defaults: { h: 82, v: 78, i: 75 } },
+    covid: { r0: 3.4, hygieneWeight: 0.45, vacWeight: 0.75, isoWeight: 0.65, defaults: { h: 82, v: 82, i: 84 } },
+    hai: { r0: 2.1, hygieneWeight: 0.74, vacWeight: 0.52, isoWeight: 0.68, defaults: { h: 88, v: 75, i: 86 } },
   };
 
   const SCENARIO_PRESETS = {
     bundle: { h: 85, v: 85, i: 80 },
     surge: { h: 55, v: 55, i: 50 },
     unmit: { h: 20, v: 25, i: 20 },
-  };
-
-  const MONTHS = {
-    en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    pt: ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
   };
 
   const COPY = {
@@ -80,23 +39,6 @@ import * as THREE from "./assets/vendor/three.module.min.js";
         `Illustrative IPC barrier model — elevated vulnerability for ${p}: Rₑ = ${re.toFixed(2)} leaves ~${sec} ${sec === 1 ? "bed" : "beds"} exposed. Raise hygiene, protection, or isolation speed.`,
       bedLabel: (num, st) => `Bed ${String(num).padStart(2, "0")} · ${st}`,
       states: { imm: "Protected", sus: "Susceptible", exp: "Exposed", idx: "Index case", iso: "Isolated" },
-      live: "Live API",
-      snapshot: "2026 Snapshot",
-      loading: "Syncing…",
-      feedRsv: "RSV PCR testing positivity by age group",
-      feedFlu: "Influenza weekly testing positivity by age group",
-      feedCovid: "COVID-19 7-day rolling PCR positivity",
-      feedHai: "Winter respiratory surge (RSV proxy) driving paediatric bed-pressure context",
-      u5Label: "Paediatric (00–04 yrs)",
-      allLabel: "All ages",
-      covLabel: "7-day rolling positivity (All ages)",
-      haiRsvLabel: "Winter ward surge (RSV <5s)",
-      haiIpcLabel: "IPC focus (MDRO / HAI)",
-      haiIpcVal: "Hand hygiene & cohorting",
-      calloutRatio: (ratio) => `Under-5 RSV positivity is currently ${ratio}× the all-age baseline across England.`,
-      datePrefix: "Latest data:",
-      chartLegendU5: "00–04 yrs",
-      chartLegendAll: "All ages",
     },
     pt: {
       contained: "Controlado · Rₑ < 1",
@@ -114,23 +56,6 @@ import * as THREE from "./assets/vendor/three.module.min.js";
         `Modelo ilustrativo de CCIH — vulnerabilidade para ${p}: Rₑ = ${re.toFixed(2)} expõe até ${sec} ${sec === 1 ? "leito" : "leitos"}. Reforce a higienização das mãos, a proteção ou o isolamento.`,
       bedLabel: (num, st) => `Leito ${String(num).padStart(2, "0")} · ${st}`,
       states: { imm: "Protegido", sus: "Suscetível", exp: "Exposto", idx: "Caso-índice", iso: "Em isolamento" },
-      live: "API ao vivo",
-      snapshot: "Resumo 2026",
-      loading: "Sincronizando…",
-      feedRsv: "Positividade semanal de VSR por faixa etária (Inglaterra)",
-      feedFlu: "Positividade semanal de Influenza por faixa etária (Inglaterra)",
-      feedCovid: "Positividade móvel de 7 dias para COVID-19 (Inglaterra)",
-      feedHai: "Pressão sazonal respiratória (VSR) como contexto de lotação pediátrica",
-      u5Label: "Pediátrico (00–04 anos)",
-      allLabel: "Todas as idades",
-      covLabel: "Positividade média 7 dias (Todas as idades)",
-      haiRsvLabel: "Pressão sazonal (VSR <5 anos)",
-      haiIpcLabel: "Foco de CCIH (IRAS / MDR)",
-      haiIpcVal: "Higiene das mãos e coorte",
-      calloutRatio: (ratio) => `Positividade de VSR em menores de 5 anos está ${ratio}× acima da média geral na Inglaterra.`,
-      datePrefix: "Dado mais recente:",
-      chartLegendU5: "00–04 anos",
-      chartLegendAll: "Todas as idades",
     },
   };
 
@@ -138,12 +63,6 @@ import * as THREE from "./assets/vendor/three.module.min.js";
   const getProfileName = (id) => {
     const btn = labSec.querySelector(`.lab-tab[data-profile="${id}"]`);
     return btn ? btn.textContent.trim() : id.toUpperCase();
-  };
-
-  const fmtAxisDate = (iso) => {
-    const [, m, d] = iso.split("-").map(Number);
-    const mon = MONTHS[getLang()][(m || 1) - 1] || "";
-    return getLang() === "pt" ? `${d} ${mon}` : `${d} ${mon}`;
   };
 
   /* ---------- DOM References ---------- */
@@ -168,16 +87,6 @@ import * as THREE from "./assets/vendor/three.module.min.js";
   const oHygiene = document.getElementById("ipcHygieneOut");
   const oVaccine = document.getElementById("ipcVaccineOut");
   const oIsolation = document.getElementById("ipcIsolationOut");
-
-  const elFeedSub = document.getElementById("ukhsaSubtitle");
-  const elFeedBadge = document.getElementById("ukhsaStatus");
-  const elFeedRefresh = document.getElementById("ukhsaRefresh");
-  const elFeedMetrics = document.getElementById("ukhsaMetrics");
-  const elFeedCallout = document.getElementById("ukhsaCallout");
-  const elFeedLegend = document.getElementById("ukhsaLegend");
-  const elFeedHover = document.getElementById("ukhsaHoverReadout");
-  const elFeedChart = document.getElementById("ukhsaChart");
-  const elFeedDate = document.getElementById("ukhsaDate");
 
   /* ---------- Two-Bay Architectural 20-Bed Ward Topology ---------- */
   let activeProfile = "rsv";
@@ -870,9 +779,7 @@ import * as THREE from "./assets/vendor/three.module.min.js";
     sHygiene.value = def.h;
     sVaccine.value = def.v;
     sIsolation.value = def.i;
-    activeChartIdx = -1;
     recomputeSimulation(true);
-    renderFeed(isFetching);
   }
 
   elTabs.forEach((btn, idx) => {
@@ -922,366 +829,9 @@ import * as THREE from "./assets/vendor/three.module.min.js";
     showBedTip(indexBed);
   });
 
-  /* ---------- Live UKHSA Surveillance Feed (England, Pagination & XSS-Safe SVG) ---------- */
-  const feedCache = {
-    rsv: { live: false, ...UKHSA_FALLBACK.rsv },
-    flu: { live: false, ...UKHSA_FALLBACK.flu },
-    covid: { live: false, ...UKHSA_FALLBACK.covid },
-  };
-  let isFetching = false;
-  let activeChartIdx = -1;
-  let chartPointsMeta = [];
-
-  function extractSeries(rows, targetAge) {
-    const map = new Map();
-    for (const r of rows) {
-      if (
-        r.stratum === "default" &&
-        r.sex === "all" &&
-        r.age === targetAge &&
-        typeof r.date === "string" &&
-        /^\d{4}-\d{2}-\d{2}$/.test(r.date) &&
-        Number.isFinite(r.metric_value)
-      ) {
-        map.set(r.date, r.metric_value);
-      }
-    }
-    return [...map.entries()].sort((a, b) => a[0].localeCompare(b[0]));
-  }
-
-  async function fetchPaginatedYear(url, signal) {
-    const allRows = [];
-    let nextUrl = url;
-    for (let page = 0; nextUrl && page < 4; page++) {
-      const parsed = new URL(nextUrl);
-      if (parsed.origin !== "https://api.ukhsa-dashboard.data.gov.uk") break;
-      const res = await fetch(parsed.toString(), { signal, cache: "no-store" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      if (Array.isArray(data.results)) allRows.push(...data.results);
-      nextUrl = typeof data.next === "string" ? data.next : null;
-    }
-    return allRows;
-  }
-
-  async function fetchUKHSATopic(topic, metric) {
-    const year = new Date().getFullYear();
-    const buildUrl = (y) =>
-      `https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/${encodeURIComponent(topic)}/geography_types/Nation/geographies/England/metrics/${encodeURIComponent(metric)}?year=${y}&page_size=365`;
-
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 4500);
-    try {
-      let rows = await fetchPaginatedYear(buildUrl(year), controller.signal);
-      // Inspect filtered series count (unfiltered Jan rows would bypass year-1 rollover!)
-      if (extractSeries(rows, "all").length < 12) {
-        try {
-          const prevRows = await fetchPaginatedYear(buildUrl(year - 1), controller.signal);
-          rows = [...prevRows, ...rows];
-        } catch (_) {}
-      }
-      return rows;
-    } finally {
-      clearTimeout(timer);
-    }
-  }
-
-  async function refreshUKHSA() {
-    if (isFetching) return;
-    isFetching = true;
-    elFeedRefresh.classList.add("spinning");
-    renderFeed(true);
-    try {
-      const [rsvRows, fluRows, covRows] = await Promise.all([
-        fetchUKHSATopic("RSV", "RSV_testing_positivityByWeek"),
-        fetchUKHSATopic("Influenza", "influenza_testing_positivityByWeek"),
-        fetchUKHSATopic("COVID-19", "COVID-19_testing_positivity7DayRolling"),
-      ]);
-      const rsvU5 = extractSeries(rsvRows, "00-04").slice(-12);
-      const rsvAll = extractSeries(rsvRows, "all").slice(-12);
-      if (rsvU5.length >= 4 && rsvAll.length >= 4) {
-        feedCache.rsv = { live: true, under5: rsvU5, all: rsvAll };
-      }
-      const fluU5 = extractSeries(fluRows, "00-04").slice(-12);
-      const fluAll = extractSeries(fluRows, "all").slice(-12);
-      if (fluU5.length >= 4 && fluAll.length >= 4) {
-        feedCache.flu = { live: true, under5: fluU5, all: fluAll };
-      }
-      const covAll = extractSeries(covRows, "all");
-      if (covAll.length >= 28) {
-        const weekly = [];
-        for (let i = covAll.length - 1; i >= 0 && weekly.length < 12; i -= 7) weekly.push(covAll[i]);
-        weekly.reverse();
-        if (weekly.length >= 4) {
-          feedCache.covid = { live: true, under5: null, all: weekly };
-        }
-      }
-    } catch (_) {
-      // Quietly preserve verified 2026 UKHSA snapshot when offline/sandboxed
-    } finally {
-      isFetching = false;
-      elFeedRefresh.classList.remove("spinning");
-      renderFeed(false);
-    }
-  }
-
-  function svgEl(tag, attrs = {}) {
-    const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
-    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, String(v));
-    return el;
-  }
-
-  function updateChartHoverReadout(u5Series, allSeries, c) {
-    if (!elFeedHover) return;
-    const idx = activeChartIdx >= 0 && activeChartIdx < allSeries.length ? activeChartIdx : -1;
-    if (idx < 0) {
-      elFeedHover.textContent = "";
-      return;
-    }
-    const dateStr = fmtAxisDate(allSeries[idx][0]);
-    const allVal = `${allSeries[idx][1].toFixed(1)}%`;
-    if (u5Series && u5Series[idx]) {
-      elFeedHover.textContent = `${dateStr} · ${u5Series[idx][1].toFixed(1)}% / ${allVal}`;
-    } else {
-      elFeedHover.textContent = `${dateStr} · ${allVal}`;
-    }
-    elFeedChart.querySelectorAll("[data-hover-marker]").forEach((m) => m.remove());
-    const meta = chartPointsMeta[idx];
-    if (meta) {
-      elFeedChart.appendChild(
-        svgEl("line", {
-          "data-hover-marker": "1",
-          x1: meta.x.toFixed(1),
-          y1: 10,
-          x2: meta.x.toFixed(1),
-          y2: 92,
-          stroke: "rgba(11,95,107,0.35)",
-          "stroke-width": 1.2,
-          "stroke-dasharray": "2 2",
-        })
-      );
-      if (meta.u5Y != null) {
-        elFeedChart.appendChild(
-          svgEl("circle", {
-            "data-hover-marker": "1",
-            cx: meta.x.toFixed(1),
-            cy: meta.u5Y.toFixed(1),
-            r: 4.2,
-            fill: "#0b5f6b",
-            stroke: "#fff",
-            "stroke-width": 1.6,
-          })
-        );
-      }
-      elFeedChart.appendChild(
-        svgEl("circle", {
-          "data-hover-marker": "1",
-          cx: meta.x.toFixed(1),
-          cy: meta.allY.toFixed(1),
-          r: 3.6,
-          fill: meta.u5Y != null ? "#475569" : "#0b5f6b",
-          stroke: "#fff",
-          "stroke-width": 1.5,
-        })
-      );
-    }
-  }
-
-  function renderSVGChart(u5Series, allSeries, c) {
-    const W = 360, H = 116, padL = 36, padR = 12, padT = 10, padB = 24;
-    const plotW = W - padL - padR, plotH = H - padT - padB;
-    const vals = [...(u5Series || []).map((p) => p[1]), ...allSeries.map((p) => p[1])];
-    const peak = Math.max(5, ...vals);
-    const step = peak > 16 ? 10 : peak > 8 ? 5 : 2;
-    const maxV = Math.ceil(peak / step) * step;
-    const midV = maxV / 2;
-
-    const toX = (idx, len) => padL + (len > 1 ? (idx / (len - 1)) * plotW : plotW * 0.5);
-    const toY = (val) => padT + plotH - (val / maxV) * plotH;
-
-    const polyStr = (pts) => pts.map(([x, y], idx) => `${idx === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
-    const allPts = allSeries.map((p, idx) => [toX(idx, allSeries.length), toY(p[1])]);
-    const u5Pts = u5Series ? u5Series.map((p, idx) => [toX(idx, u5Series.length), toY(p[1])]) : null;
-
-    chartPointsMeta = allSeries.map((_, idx) => ({
-      x: allPts[idx][0],
-      allY: allPts[idx][1],
-      u5Y: u5Pts && u5Pts[idx] ? u5Pts[idx][1] : null,
-    }));
-
-    elFeedChart.replaceChildren();
-
-    const defs = svgEl("defs");
-    const grad = svgEl("linearGradient", { id: "u5Area", x1: 0, y1: 0, x2: 0, y2: 1 });
-    grad.appendChild(svgEl("stop", { offset: "0%", "stop-color": "#0b5f6b", "stop-opacity": "0.22" }));
-    grad.appendChild(svgEl("stop", { offset: "100%", "stop-color": "#0b5f6b", "stop-opacity": "0.01" }));
-    defs.appendChild(grad);
-    elFeedChart.appendChild(defs);
-
-    elFeedChart.appendChild(svgEl("line", { x1: padL, y1: padT, x2: W - padR, y2: padT, stroke: "rgba(11,95,107,0.1)", "stroke-dasharray": "3 3" }));
-    elFeedChart.appendChild(svgEl("line", { x1: padL, y1: padT + plotH / 2, x2: W - padR, y2: padT + plotH / 2, stroke: "rgba(11,95,107,0.1)", "stroke-dasharray": "3 3" }));
-    elFeedChart.appendChild(svgEl("line", { x1: padL, y1: padT + plotH, x2: W - padR, y2: padT + plotH, stroke: "rgba(11,95,107,0.16)" }));
-
-    const addText = (x, y, txt, anchor = "end") => {
-      const t = svgEl("text", { x, y, "text-anchor": anchor, "font-size": "10.5", fill: "#485966" });
-      t.textContent = txt;
-      elFeedChart.appendChild(t);
-    };
-    addText(padL - 5, padT + 4, `${maxV}%`, "end");
-    addText(padL - 5, padT + plotH / 2 + 4, `${midV}%`, "end");
-    addText(padL - 5, padT + plotH + 4, "0%", "end");
-    addText(padL, H - 4, fmtAxisDate(allSeries[0][0]), "start");
-    addText(W - padR, H - 4, fmtAxisDate(allSeries[allSeries.length - 1][0]), "end");
-
-    const topPts = u5Pts || allPts;
-    const areaD = `${polyStr(topPts)} L${topPts[topPts.length - 1][0].toFixed(1)},${padT + plotH} L${topPts[0][0].toFixed(1)},${padT + plotH} Z`;
-    elFeedChart.appendChild(svgEl("path", { d: areaD, fill: "url(#u5Area)" }));
-
-    if (u5Pts) {
-      elFeedChart.appendChild(
-        svgEl("path", {
-          d: polyStr(allPts),
-          fill: "none",
-          stroke: "#475569",
-          "stroke-width": 1.8,
-          "stroke-dasharray": "4 3",
-          "stroke-linecap": "round",
-        })
-      );
-      elFeedChart.appendChild(
-        svgEl("path", {
-          d: polyStr(u5Pts),
-          fill: "none",
-          stroke: "#0b5f6b",
-          "stroke-width": 2.4,
-          "stroke-linecap": "round",
-          "stroke-linejoin": "round",
-        })
-      );
-    } else {
-      elFeedChart.appendChild(
-        svgEl("path", {
-          d: polyStr(allPts),
-          fill: "none",
-          stroke: "#0b5f6b",
-          "stroke-width": 2.4,
-          "stroke-linecap": "round",
-          "stroke-linejoin": "round",
-        })
-      );
-    }
-
-    const [lx, ly] = topPts[topPts.length - 1];
-    elFeedChart.appendChild(svgEl("circle", { cx: lx.toFixed(1), cy: ly.toFixed(1), r: 3.6, fill: "#0b5f6b", stroke: "#fff", "stroke-width": 1.5 }));
-
-    if (elFeedLegend) {
-      elFeedLegend.replaceChildren();
-      const mkItem = (text, dashed) => {
-        const sp = document.createElement("span");
-        sp.className = "feed-leg-item";
-        const line = document.createElement("i");
-        line.className = dashed ? "feed-leg-line dashed" : "feed-leg-line";
-        line.setAttribute("aria-hidden", "true");
-        sp.append(line, document.createTextNode(text));
-        return sp;
-      };
-      if (u5Pts) elFeedLegend.append(mkItem(c.chartLegendU5, false), mkItem(c.chartLegendAll, true));
-      else elFeedLegend.append(mkItem(c.chartLegendAll, false));
-    }
-    updateChartHoverReadout(u5Series, allSeries, c);
-  }
-
-  function getActiveSeriesPair() {
-    const feedKey = activeProfile === "hai" ? "rsv" : activeProfile;
-    return feedCache[feedKey];
-  }
-
-  elFeedChart.addEventListener("pointermove", (e) => {
-    const dataset = getActiveSeriesPair();
-    if (!dataset.all.length) return;
-    const rect = elFeedChart.getBoundingClientRect();
-    const relX = ((e.clientX - rect.left) / rect.width) * 360;
-    const norm = Math.max(0, Math.min(1, (relX - 36) / (360 - 48)));
-    activeChartIdx = Math.round(norm * (dataset.all.length - 1));
-    updateChartHoverReadout(dataset.under5, dataset.all, COPY[getLang()]);
-  });
-  elFeedChart.addEventListener("pointerleave", () => {
-    activeChartIdx = -1;
-    const dataset = getActiveSeriesPair();
-    updateChartHoverReadout(dataset.under5, dataset.all, COPY[getLang()]);
-  });
-  elFeedChart.addEventListener("keydown", (e) => {
-    const dataset = getActiveSeriesPair();
-    if (!dataset.all.length) return;
-    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-      e.preventDefault();
-      if (activeChartIdx < 0) activeChartIdx = dataset.all.length - 1;
-      else activeChartIdx = (activeChartIdx + (e.key === "ArrowRight" ? 1 : -1) + dataset.all.length) % dataset.all.length;
-      updateChartHoverReadout(dataset.under5, dataset.all, COPY[getLang()]);
-    }
-  });
-
-  function renderFeed(loading = false) {
-    const c = COPY[getLang()];
-    const cfg = PROFILES[activeProfile];
-    const dataset = getActiveSeriesPair();
-
-    elFeedSub.textContent = c[cfg.subKey];
-    elFeedBadge.textContent = loading ? c.loading : dataset.live ? c.live : c.snapshot;
-    elFeedBadge.classList.toggle("live", dataset.live && !loading);
-
-    const lastAll = dataset.all[dataset.all.length - 1];
-    elFeedMetrics.replaceChildren();
-    const mkStat = (label, val, isAlt = false, full = false, smallVal = false) => {
-      const box = document.createElement("div");
-      box.className = full ? "feed-stat full" : "feed-stat";
-      const lbl = document.createElement("span");
-      lbl.className = "feed-stat-label";
-      lbl.textContent = label;
-      const v = document.createElement("span");
-      v.className = isAlt ? "feed-stat-val alt" : "feed-stat-val";
-      if (smallVal) v.style.fontSize = "1.02rem";
-      v.textContent = val;
-      box.append(lbl, v);
-      return box;
-    };
-
-    if (activeProfile === "hai") {
-      const lastU5 = dataset.under5[dataset.under5.length - 1];
-      elFeedMetrics.append(
-        mkStat(c.haiRsvLabel, `${lastU5[1].toFixed(1)}%`),
-        mkStat(c.haiIpcLabel, c.haiIpcVal, true, false, true)
-      );
-      if (elFeedCallout) elFeedCallout.textContent = "";
-    } else if (dataset.under5) {
-      const lastU5 = dataset.under5[dataset.under5.length - 1];
-      elFeedMetrics.append(
-        mkStat(c.u5Label, `${lastU5[1].toFixed(1)}%`),
-        mkStat(c.allLabel, `${lastAll[1].toFixed(1)}%`, true)
-      );
-      if (elFeedCallout) {
-        if (lastAll[1] > 0 && lastU5[1] / lastAll[1] >= 1.5) {
-          const ratio = (lastU5[1] / lastAll[1]).toFixed(1);
-          elFeedCallout.textContent = c.calloutRatio(getLang() === "pt" ? ratio.replace(".", ",") : ratio);
-        } else {
-          elFeedCallout.textContent = "";
-        }
-      }
-    } else {
-      elFeedMetrics.append(mkStat(c.covLabel, `${lastAll[1].toFixed(1)}%`, false, true));
-      if (elFeedCallout) elFeedCallout.textContent = "";
-    }
-
-    elFeedDate.textContent = `${c.datePrefix} ${lastAll[0]}`;
-    renderSVGChart(dataset.under5, dataset.all, c);
-  }
-
-  elFeedRefresh.addEventListener("click", refreshUKHSA);
-
   /* ---------- Lifecycle, Observers & Bootstrap ---------- */
   if (!initThree()) initFallback2D();
   recomputeSimulation(false);
-  renderFeed(false);
   resizeCanvas();
 
   if (typeof ResizeObserver !== "undefined") {
@@ -1293,7 +843,6 @@ import * as THREE from "./assets/vendor/three.module.min.js";
 
   window.addEventListener("langchange", () => {
     updateUIReadouts();
-    renderFeed(isFetching);
   });
 
   const labObs = new IntersectionObserver(
@@ -1326,13 +875,5 @@ import * as THREE from "./assets/vendor/three.module.min.js";
   if (mqReduced.addEventListener) mqReduced.addEventListener("change", onReducedChange);
   else if (mqReduced.addListener) mqReduced.addListener(onReducedChange);
 
-  // Kick off live UKHSA sync without blocking paint, and poll gently every 5 min while visible
-  refreshUKHSA();
-  const pollId = setInterval(() => {
-    if (!document.hidden && isVisible) refreshUKHSA();
-  }, 300000);
-  window.addEventListener("pagehide", () => {
-    stopLoop();
-    clearInterval(pollId);
-  });
+  window.addEventListener("pagehide", stopLoop);
 })();

@@ -57,6 +57,7 @@
       <a href="#experience" data-i18n="nav.experience">Experience</a>
       <a href="#education" data-i18n="nav.education">Education</a>
       <a href="#lab" data-i18n="nav.lab">Lab</a>
+      <a href="#surveillance" data-i18n="nav.surveillance">UK Data</a>
       <a href="#contact" class="nav-cta" data-i18n="nav.contact">Contact</a>
     </nav>
     </div>
@@ -309,7 +310,7 @@
       <div class="section-head reveal">
         <span class="kicker" data-i18n="lab.kicker">05 — Prevention Lab</span>
         <h2 data-i18n="lab.title">Breaking the chain of transmission.</h2>
-        <p class="section-sub" data-i18n="lab.lead">Explore how hand hygiene, immunisation, and active surveillance and rapid isolation interrupt pathogen spread across a 20-bed paediatric ward — paired with live UKHSA surveillance telemetry for England.</p>
+        <p class="section-sub" data-i18n="lab.lead">Explore how hand hygiene, immunisation, and active surveillance and rapid isolation interrupt pathogen spread across a 20-bed paediatric ward.</p>
       </div>
 
       <div class="lab-grid reveal">
@@ -402,35 +403,138 @@
             </div>
 
             <p class="lab-note" id="labNote" aria-live="polite"></p>
+            <a class="lab-jump" href="#surveillance" data-i18n="lab.jumpSurv">Explore live UKHSA surveillance data <span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UK SURVEILLANCE -->
+    <section id="surveillance" class="section alt">
+      <div class="section-head reveal">
+        <div class="surv-head-row">
+          <div class="surv-head-copy">
+            <span class="kicker" data-i18n="surv.kicker">06 — UK Surveillance</span>
+            <h2 data-i18n="surv.title">Live UKHSA respiratory surveillance.</h2>
+            <p class="section-sub" data-i18n="surv.lead">Explore live public health telemetry from the UK Health Security Agency (UKHSA) across England and UK regions — filter by pathogen, clinical indicator, geography, age cohort, and timeframe, and switch chart modes.</p>
+          </div>
+          <div class="surv-live-meta">
+            <span class="feed-badge" id="ukhsaStatus">2026 Snapshot</span>
+            <button type="button" class="feed-refresh" id="ukhsaRefresh" data-i18n-attr="aria-label:surv.refreshAria;title:surv.refreshAria" aria-label="Refresh live UKHSA data" title="Refresh live UKHSA data">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="surv-shell reveal">
+        <div class="surv-filters">
+          <div class="surv-top-bar">
+            <div class="surv-tabs" id="survPathogens" role="tablist" data-i18n-attr="aria-label:surv.pathogenAria" aria-label="Select pathogen">
+              <button type="button" class="surv-tab active" role="tab" aria-selected="true" tabindex="0" data-pathogen="rsv" data-i18n="surv.p.rsv">RSV</button>
+              <button type="button" class="surv-tab" role="tab" aria-selected="false" tabindex="-1" data-pathogen="flu" data-i18n="surv.p.flu">Influenza</button>
+              <button type="button" class="surv-tab" role="tab" aria-selected="false" tabindex="-1" data-pathogen="covid" data-i18n="surv.p.covid">COVID-19</button>
+              <button type="button" class="surv-tab" role="tab" aria-selected="false" tabindex="-1" data-pathogen="rhino" data-i18n="surv.p.rhino">Rhinovirus</button>
+              <button type="button" class="surv-tab" role="tab" aria-selected="false" tabindex="-1" data-pathogen="adeno" data-i18n="surv.p.adeno">Adenovirus</button>
+              <button type="button" class="surv-tab" role="tab" aria-selected="false" tabindex="-1" data-pathogen="hmpv" data-i18n="surv.p.hmpv">hMPV</button>
+            </div>
+            <button type="button" class="surv-compare-btn" id="survCompareBtn" aria-pressed="false" data-i18n="surv.compareBtn">Compare pathogens</button>
           </div>
 
-          <div class="lab-panel lab-feed">
-            <div class="lab-panel-head lab-feed-head">
-              <h3 data-i18n="lab.feedTitle">UKHSA England</h3>
-              <div class="lab-feed-actions">
-                <span class="feed-badge" id="ukhsaStatus">2026 Snapshot</span>
-                <button type="button" class="feed-refresh" id="ukhsaRefresh" data-i18n-attr="aria-label:lab.refreshAria;title:lab.refreshAria" aria-label="Refresh live UKHSA data" title="Refresh live UKHSA data">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
-                </button>
+          <div class="surv-filter-row">
+            <div class="surv-field">
+              <label for="survMetric" data-i18n="surv.metricLbl">Indicator</label>
+              <select id="survMetric" class="surv-select">
+                <option value="positivity">Test positivity (%)</option>
+                <option value="admissions">Hospital admissions (/100k)</option>
+                <option value="icu">ICU / HDU admissions (/100k)</option>
+              </select>
+            </div>
+
+            <div class="surv-field">
+              <label for="survGeo" data-i18n="surv.geoLbl">Geography</label>
+              <select id="survGeo" class="surv-select">
+                <option value="England">England (National)</option>
+                <option value="London">London</option>
+                <option value="East Midlands">East Midlands</option>
+                <option value="East of England">East of England</option>
+                <option value="North East">North East</option>
+                <option value="North West">North West</option>
+                <option value="South East">South East</option>
+                <option value="South West">South West</option>
+                <option value="West Midlands">West Midlands</option>
+                <option value="Yorkshire and Humber">Yorkshire and Humber</option>
+              </select>
+            </div>
+
+            <div class="surv-field surv-field-range">
+              <span class="surv-field-lbl" id="survRangeLbl" data-i18n="surv.rangeLbl">Timeframe</span>
+              <div class="surv-seg" id="survRange" role="group" aria-labelledby="survRangeLbl">
+                <button type="button" class="surv-seg-btn active" data-range="12w" aria-pressed="true" data-i18n="surv.r.12w">12W</button>
+                <button type="button" class="surv-seg-btn" data-range="26w" aria-pressed="false" data-i18n="surv.r.26w">26W</button>
+                <button type="button" class="surv-seg-btn" data-range="52w" aria-pressed="false" data-i18n="surv.r.52w">1Y</button>
+                <button type="button" class="surv-seg-btn" data-range="ytd" aria-pressed="false" data-i18n="surv.r.ytd">YTD</button>
               </div>
             </div>
-            <p class="lab-feed-sub" id="ukhsaSubtitle">RSV PCR positivity by age group</p>
+          </div>
 
-            <div class="feed-metrics" id="ukhsaMetrics"></div>
-            <p class="feed-callout" id="ukhsaCallout"></p>
+          <div class="surv-cohorts">
+            <span class="surv-cohorts-lbl" id="survCohortLbl" data-i18n="surv.ageLbl">Age cohorts</span>
+            <div class="surv-chip-group" id="survCohortChips" role="group" aria-labelledby="survCohortLbl"></div>
+            <p class="surv-filter-note" id="survFilterNote" aria-live="polite"></p>
+          </div>
+        </div>
 
-            <div class="feed-chart-wrap">
-              <div class="feed-chart-bar">
-                <div class="feed-chart-legend" id="ukhsaLegend"></div>
-                <span class="feed-chart-readout" id="ukhsaHoverReadout"></span>
-              </div>
-              <svg id="ukhsaChart" class="feed-chart" viewBox="0 0 360 116" role="img" tabindex="0" data-i18n-attr="aria-label:lab.chartAria" aria-label="Weekly positivity trend chart from UKHSA England surveillance. Use Left and Right arrow keys to inspect weekly points."></svg>
+        <div class="surv-kpis" id="survKpis"></div>
+        <p class="surv-callout" id="survCallout" aria-live="polite"></p>
+
+        <div class="surv-chart-panel">
+          <div class="surv-chart-toolbar">
+            <div class="surv-chart-types" id="survChartType" role="group" data-i18n-attr="aria-label:surv.chartTypeAria" aria-label="Chart type">
+              <button type="button" class="surv-type-btn active" data-type="area" aria-pressed="true">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M1.5 13.5V9.5L5.5 6L9.5 8.5L14.5 3.5V13.5H1.5Z" fill="currentColor" fill-opacity=".22"/><path d="M1.5 9.5L5.5 6L9.5 8.5L14.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span data-i18n="surv.ct.area">Area</span>
+              </button>
+              <button type="button" class="surv-type-btn" data-type="line" aria-pressed="false">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M1.5 11.5L5.5 6.5L9.5 9L14.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span data-i18n="surv.ct.line">Line</span>
+              </button>
+              <button type="button" class="surv-type-btn" data-type="bar" aria-pressed="false">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><rect x="2" y="8" width="2.6" height="6" rx=".7" fill="currentColor"/><rect x="6.7" y="4" width="2.6" height="10" rx=".7" fill="currentColor"/><rect x="11.4" y="6" width="2.6" height="8" rx=".7" fill="currentColor"/></svg>
+                <span data-i18n="surv.ct.bar">Bar</span>
+              </button>
+              <button type="button" class="surv-type-btn" data-type="step" aria-pressed="false">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M1.5 11.5H5.5V6.5H10V9H14.5V3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span data-i18n="surv.ct.step">Step</span>
+              </button>
             </div>
 
-            <div class="feed-foot">
-              <span id="ukhsaDate">—</span>
-              <a href="https://ukhsa-dashboard.data.gov.uk/" target="_blank" rel="noopener" data-i18n="lab.feedLink">UKHSA Data Dashboard ↗</a>
+            <div class="surv-opt-group" id="survChartOpts" role="group" data-i18n-attr="aria-label:surv.lineOptsAria" aria-label="Line and graph options">
+              <button type="button" class="surv-opt-btn active" id="optSmooth" aria-pressed="true" data-i18n="surv.opt.smooth">Smooth curve</button>
+              <button type="button" class="surv-opt-btn active" id="optMarkers" aria-pressed="true" data-i18n="surv.opt.markers">Data points</button>
+              <button type="button" class="surv-opt-btn" id="optAvg" aria-pressed="false" data-i18n="surv.opt.avg">4-wk average</button>
+              <button type="button" class="surv-opt-btn" id="optMean" aria-pressed="false" data-i18n="surv.opt.mean">Mean line</button>
+              <button type="button" class="surv-opt-btn" id="optAutoScale" aria-pressed="false" data-i18n="surv.opt.autoScale">Zoom Y-axis</button>
             </div>
+          </div>
+
+          <div class="surv-legend-bar">
+            <div class="surv-legend" id="survLegend"></div>
+            <span class="surv-hover-readout" id="survHoverReadout"></span>
+          </div>
+
+          <div class="surv-chart-stage" id="survChartStage">
+            <svg id="survChart" class="surv-chart" viewBox="0 0 880 330" role="img" tabindex="0" data-i18n-attr="aria-label:surv.chartAria" aria-label="Interactive UKHSA surveillance chart. Use Left and Right arrow keys to inspect weekly data points."></svg>
+            <div class="surv-tooltip" id="survTooltip" hidden></div>
+            <p class="surv-empty" id="survEmpty" hidden></p>
+          </div>
+        </div>
+
+        <div class="surv-foot">
+          <span id="ukhsaDate">—</span>
+          <div class="surv-foot-actions">
+            <button type="button" class="surv-export-btn" id="survExportCsv" data-i18n="surv.exportCsv">Export CSV</button>
+            <a href="https://ukhsa-dashboard.data.gov.uk/" target="_blank" rel="noopener" data-i18n="surv.feedLink">UKHSA Data Dashboard ↗</a>
           </div>
         </div>
       </div>
@@ -439,7 +543,7 @@
     <!-- CONTACT -->
     <section id="contact" class="section contact">
       <div class="contact-card reveal">
-        <span class="kicker light" data-i18n="contact.kicker">06 — Contact</span>
+        <span class="kicker light" data-i18n="contact.kicker">07 — Contact</span>
         <h2 data-i18n="contact.title">Let's connect.</h2>
         <p data-i18n="contact.text">I'm always happy to hear from colleagues and fellow healthcare professionals. Feel free to email me.</p>
         <div class="actions center">
@@ -457,5 +561,6 @@
   <script src="i18n.js"></script>
   <script src="main.js"></script>
   <script type="module" src="lab3d.js"></script>
+  <script type="module" src="surveillance.js"></script>
 </body>
 </html>

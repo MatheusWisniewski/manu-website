@@ -12,6 +12,7 @@ ALLOWED = (
     "/i18n.js",
     "/main.js",
     "/lab3d.js",
+    "/surveillance.js",
     "/favicon.ico",
     "/favicon.svg",
     "/apple-touch-icon.png",

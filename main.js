@@ -106,7 +106,7 @@
     if (e.key === "Escape" && menu.classList.contains("open")) { toggle(false); btn.focus(); }
   });
   // Leaving the mobile layout with the drawer open must never strand body overflow
-  const mqDesktop = window.matchMedia("(min-width: 1041px)");
+  const mqDesktop = window.matchMedia("(min-width: 1121px)");
   const onDesktop = () => { if (mqDesktop.matches && menu.classList.contains("open")) toggle(false); };
   if (mqDesktop.addEventListener) mqDesktop.addEventListener("change", onDesktop);
   else if (mqDesktop.addListener) mqDesktop.addListener(onDesktop);
